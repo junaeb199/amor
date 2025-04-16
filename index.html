@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Felicidades Amor</title>
+  <style>
+    body {
+      background-color: #fff0f5;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    .heart {
+      position: relative;
+      width: 200px;
+      height: 180px;
+      animation: float 3s ease-in-out infinite;
+      z-index: 10;
+      cursor: pointer;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 160px;
+      background: red;
+      border-radius: 100px 100px 0 0;
+      top: 0;
+      left: 50px;
+      transform: rotate(-45deg);
+      transform-origin: 0 100%;
+    }
+
+    .heart::after {
+      left: 0;
+      transform: rotate(45deg);
+      transform-origin: 100% 100%;
+    }
+
+    .phrase {
+      margin-top: 30px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #c2185b;
+      text-shadow: 1px 1px 2px white;
+      z-index: 20;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0); }
+    }
+
+    .falling-heart {
+      position: absolute;
+      color: red;
+      font-size: 20px;
+      animation: fall linear infinite;
+      z-index: 5;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .firework {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: yellow;
+      border-radius: 50%;
+      animation: explode 0.8s ease-out forwards;
+      z-index: 50;
+    }
+
+    @keyframes explode {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(5) translateY(-50px);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="heart" id="heart"></div>
+  <div class="phrase">Felicidades por tu investidura amor, te amo 💖</div>
+
+  <script>
+    // Lluvia de corazones
+    const numberOfHearts = 40;
+    for (let i = 0; i < numberOfHearts; i++) {
+      const heart = document.createElement("div");
+      heart.classList.add("falling-heart");
+      heart.innerHTML = "❤";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (3 + Math.random() * 5) + "s";
+      heart.style.fontSize = (12 + Math.random() * 30) + "px";
+      heart.style.opacity = Math.random();
+      document.body.appendChild(heart);
+    }
+
+    // Fuegos artificiales al hacer clic en el corazón
+    const heartEl = document.getElementById("heart");
+    heartEl.addEventListener("click", (e) => {
+      for (let i = 0; i < 20; i++) {
+        const firework = document.createElement("div");
+        firework.classList.add("firework");
+
+        const x = heartEl.getBoundingClientRect().left + 100;
+        const y = heartEl.getBoundingClientRect().top + 90;
+
+        firework.style.left = `${x}px`;
+        firework.style.top = `${y}px`;
+
+        firework.style.background = `hsl(${Math.random() * 360}, 100%, 60%)`;
+        firework.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px)`;
+
+        document.body.appendChild(firework);
+
+        setTimeout(() => {
+          firework.remove();
+        }, 1000);
+      }
+    });
+  </script>
+</body>
+</html>
